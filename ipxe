@@ -1,0 +1,10 @@
+#!ipxe
+echo +----- NETBOOT ----------------------------------------------
+echo +------------------------------------------------------------
+echo .
+kernel http://135.16.101.85:9080/install/vmlinuz root=/dev/ram0 load_ramdisk=1 initrd=initrd  showopts ramdisk_size=65535  install=http://135.16.101.85:9080/install
+initrd http://135.16.101.85:9080/install/initrd
+initrd preseed.cfg url=http://135.16.101.85:9080/preseed.cfg
+boot ||
+shell
+ 
