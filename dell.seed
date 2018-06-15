@@ -1,0 +1,232 @@
+### Pre Install
+
+# Command Line 1: This is necessary otherwise you will be prompted to umount /dev/sda. See Ubuntu bug #1347726.
+d-i preseed/early_command string \
+    umount /media || true
+
+### Localization
+
+d-i debian-installer/locale string en_US
+d-i debian-installer/country string US
+d-i debian-installer/locale string en_US.UTF-8
+d-i debian-installer/language string en
+
+### Keyboard
+
+# Disable automatic (interactive) keymap detection.
+d-i console-setup/ask_detect boolean false
+d-i console-setup/layoutcode string us
+d-i console-setup/variantcode string
+d-i keyboard-configuration/layoutcode string us
+
+### Network configuration
+d-i netcfg/choose_interface select auto
+
+# If you prefer to configure the network manually, uncomment this line and
+# the static network configuration below.
+d-i netcfg/disable_autoconfig boolean true
+
+# Static IPv4 example
+d-i netcfg/get_ipaddress string 192.168.2.45
+d-i netcfg/get_netmask string 255.255.255.0
+d-i netcfg/get_gateway string 192.168.2.85
+d-i netcfg/get_nameservers string 135.25.120.104
+d-i netcfg/confirm_static boolean true
+
+# Any hostname and domain names assigned from dhcp take precedence over
+# values set here. However, setting the values still prevents the questions
+# from being shown, even if values come from dhcp.
+d-i netcfg/get_hostname string csonjrsv45
+d-i netcfg/get_domain string dellgen10.lab.akraino.org
+
+# If you want to force a hostname, regardless of what either the DHCP
+# server returns or what the reverse DNS entry for the IP is, uncomment
+# and adjust the following line.
+d-i netcfg/hostname string csonjsrv40.dellgen10.lab.akraino.org
+
+### Mirror
+
+#d-i mirror/suite string trusty
+d-i mirror/country string manual
+d-i mirror/http/proxy string http://one.proxy.att.com:8888
+d-i mirror/http/hostname string 135.16.101.85:9080
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+
+### Clock and Time Zone
+
+# Controls whether to use NTP to set the clock during the install
+d-i clock-setup/ntp boolean true
+d-i clock-setup/ntp-server string ntp.ubuntu.com
+
+# You may set this to any valid setting for $TZ; see the contents of
+# /usr/share/zoneinfo/ for valid values.
+d-i time/zone string US/Central
+
+# Controls whether or not the hardware clock is set to UTC.
+d-i clock-setup/utc boolean true
+
+### Partitioning
+
+# If one of the disks that are going to be automatically partitioned
+# contains an old LVM configuration, the user will normally receive a
+# warning. This can be preseeded away...
+d-i partman-lvm/device_remove_lvm boolean true
+
+# The same applies to pre-existing software RAID array:
+d-i partman-md/device_remove_md boolean true
+
+# And the same goes for the confirmation to write the lvm partitions.
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto/method string lvm
+d-i partman-auto/disk string /dev/sda
+
+# For LVM partitioning, you can select how much of the volume group to use
+# for logical volumes.
+d-i partman-auto-lvm/guided_size string max
+
+# You can choose one of the three predefined partitioning recipes:
+# - atomic: all files in one partition
+# - home:   separate /home partition
+# - multi:  separate /home, /var, and /tmp partitions
+d-i partman-auto/choose_recipe select atomic
+
+# If not, you can put an entire recipe into the preconfiguration file in one
+# (logical) line. This example creates a small /boot partition, suitable
+# swap, and uses the rest of the space for the root partition:
+#d-i partman-auto/choose_recipe select custompartitioning
+#d-i partman-auto/expert_recipe string \
+#      custompartitioning :: \
+#              512 1 512 ext2                                  \
+#                      $primary{ }                             \
+#                      $bootable{ }                            \
+#                      method{ format } format{ }              \
+#                      use_filesystem{ } filesystem{ ext2 }    \
+#                      label{ boot }                           \
+#                      mountpoint{ /boot }                     \
+#              .                                               \
+#              1024 1 100% ext4                                \
+#                      $primary{ }                             \
+#                      method{ lvm }                           \
+#                      device{ /dev/sda2 }                     \
+#                      vg_name{ lxc }                          \
+#              .                                               \
+#              1024 1 1024 linux-swap                          \
+#                      $lvmok{ } in_vg{ lxc }                  \
+#                      lv_name{ swap00 }                       \
+#                      method{ swap } format{ }                \
+#              .                                               \
+#              5120 1 1000000000 ext4                          \
+#                      $lvmok{ } in_vg{ lxc }                  \
+#                      lv_name{ root00 }                       \
+#                      method{ format } format{ }              \
+#                      use_filesystem{ } filesystem{ ext4 }    \
+#                      label{ root }                           \
+#                      mountpoint{ / }                         \
+#              .                                               \
+
+# This makes partman automatically partition without confirmation, provided
+# that you told it what to do using one of the methods above.
+#d-i partman-partitioning/confirm_write_new_label boolean true
+#d-i partman/choose_partition select finish
+#d-i partman/confirm boolean true
+#d-i partman/confirm_nooverwrite boolean true
+
+# This makes partman automatically partition without confirmation.
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+## Controlling how partitions are mounted
+# The default is to mount by UUID, but you can also choose "traditional" to
+# use traditional device names, or "label" to try filesystem labels before
+# falling back to UUIDs.
+d-i partman/mount_style select traditional
+
+
+### Packages
+
+# disable APT to autoupdate during iso installation
+d-i apt-setup/use_mirror boolean false
+d-i apt-setup/services-select-ubuntu multiselect ""
+
+# Package selection
+#tasksel tasksel/first multiselect server, openssh-server
+tasksel tasksel/first multiselect standard, server, openssh-server, python-minimal
+
+# Individual additional packages to install
+#d-i pkgsel/include string vim git ethtool dos2unix tree python-pip python3-pip python-dev python3-dev python-virtualenv python3-venv build-essential dkms open-vm-tools open-vm-tools-dkms
+d-i pkgsel/include string vim git ethtool build-essential open-vm-tools
+
+# Whether to upgrade packages after debootstrap.
+# Allowed values: none, safe-upgrade, full-upgrade
+d-i pkgsel/upgrade select none
+
+# Policy for applying updates. May be "none" (no automatic updates),
+# "unattended-upgrades" (install security updates automatically), or
+# "landscape" (manage system with Landscape).
+d-i pkgsel/update-policy select none
+
+# Some versions of the installer can report back on what software you have
+# installed, and what software you use. The default is not to report back,
+# but sending reports helps the project determine what software is most
+# popular and include it on CDs.
+popularity-contest popularity-contest/participate boolean false
+
+### Users and Password
+
+# Skip creation of a root account (normal user account will be able to
+# use sudo). The default is false; preseed this to true if you want to set
+# a root password.
+d-i passwd/root-login boolean true
+
+# Alternatively, to skip creation of a normal user account.
+d-i passwd/make-user boolean false
+
+# The installer will warn about weak passwords. If you are sure you know
+# what you're doing and want to override it, uncomment this.
+d-i user-setup/allow-password-weak boolean true
+
+# Root password, either in clear text
+d-i passwd/root-password password akraino,d
+d-i passwd/root-password-again password akraino,d
+
+### Bootloader
+
+# This is fairly safe to set, it makes grub install automatically to the MBR
+# if no other operating system is detected on the machine.
+d-i grub-installer/only_debian boolean true
+
+### Post Install
+
+# Command Line 1: Allow root to SSH.
+d-i pkgsel/update-policy select none
+d-i finish-install/reboot_in_progress note
+d-i preseed/late_command string \
+    in-target apt-get -y install man-db autofs bsd-mailx libpam-cracklib; \
+    in-target apt-get -y install sysstat ksh linux-crashdump snmpd snmp; \
+    in-target apt-get -y install tcpdump ntpdate libaio1 lvm2 at; \
+    in-target apt-get -y install ntp ifenslave vlan curl; \
+    in-target /bin/bash -c 'lshw | grep "VMware Virtual Platform" && apt-get -y install open-vm-tools'; \
+    in-target /bin/sed -i 's/^PermitRootLogin .*$/PermitRootLogin yes/g' /etc/ssh/sshd_config; \
+    in-target /bin/sed -i 's/^server /#server /g' /etc/ntp.conf; \
+    in-target /bin/sed -i 's/^pool /#pool /g' /etc/ntp.conf; \
+    in-target /bin/bash -c '/bin/echo "server 135.25.154.100" >> /etc/ntp.conf'; \
+    in-target /bin/bash -c '/bin/echo "8021q" >> /etc/modules'; \
+    in-target /bin/bash -c 'echo -e "auto bond0\niface bond0 inet manual\n    bond-mode 4\n    down ip addr flush dev bond0\n" >> /etc/network/interfaces'; \
+    in-target /bin/bash -c 'echo -e "    bond-miimon 100\n    bond-slaves ens3f0 ens3f1\n    mtu 9000\n" >> /etc/network/interfaces'; \
+    in-target /bin/bash -c 'echo -e "auto bond0.41\niface bond0.41 inet static\n    address 192.168.2.45\n    netmask 255.255.255.0\n" >> /etc/network/interfaces'; \
+    in-target /bin/bash -c 'echo -e "    gateway 192.168.2.85\n    dns-nameservers 132.201.90.167\n    dns-search att.com\n    vlan-raw-device bond0\n    mtu 9000\n" >> /etc/network/interfaces'; \
+    in-target /bin/bash -c '/bin/echo "http_proxy=\"http://one.proxy.att.com:8888/\"" >> /etc/environment'; \
+    in-target /bin/bash -c '/bin/echo "https_proxy=\"http://one.proxy.att.com:8888/\"" >> /etc/environment'; \
+    in-target /bin/bash -c '/bin/echo "ftp_proxy=\"http://one.proxy.att.com:8888/\"" >> /etc/environment'; \
+    in-target /bin/bash -c '/bin/echo "no_proxy=\"localhost,127.0.0.1,.att.com,.sbc.com\"" >> /etc/environment'
+
+### Finish
+# Reboot after the install is finished.
+d-i finish-install/reboot_in_progress note
+
