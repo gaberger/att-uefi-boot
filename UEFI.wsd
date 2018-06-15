@@ -1,0 +1,21 @@
+@startuml
+entity BMC
+entity DHCP
+entity HTTP
+entity NBP
+autonumber
+group Stage 0 iPXE Chain Loading
+BMC->HTTP : Load ipxe.efi w/ipxe script
+HTTP->BMC : Deliver ipxe.efi
+group IPXE Script Processing
+BMC->NBP  : Load NBP (iPXE)
+NBP->NBP  : execute embedded script
+NBP->DHCP : DHCP DISCOVER
+DHCP->NBP : DHCP OFFER (IP Route Details)
+NBP->DHCP : DHCP ACK
+NBP->HTTP : PULL Kernel and Initrd
+HTTP->NBP : Transfer Kernel Initrd
+NBP->NBP : Load kernel into memory
+end
+end
+@enduml
