@@ -1,0 +1,80 @@
+<SystemConfiguration Model="PowerEdge R740" ServiceTag="4CMDCP2" TimeStamp="Thu Jun  8 11:05:19 2018">
+	<!--Export type is Clone,Selective-->
+	<!--Exported configuration may contain commented attributes. Attributes may be commented due to dependency, destructive nature, preserving server identity or for security reasons.-->
+	<Component FQDD="RAID.Slot.6-1">
+		<Attribute Name="RAIDresetConfig">True</Attribute>
+		<Attribute Name="RAIDforeignConfig">Clear</Attribute>
+		<Attribute Name="CurrentControllerMode">RAID</Attribute>
+		<Attribute Name="RAIDrekey">False</Attribute>
+		<Attribute Name="EncryptionMode">None</Attribute>
+		<!-- <Attribute Name="KeyID"></Attribute> -->
+		<!-- <Attribute Name="OldControllerKey">******</Attribute> -->
+		<!-- <Attribute Name="NewControllerKey">******</Attribute> -->
+		<Attribute Name="RAIDprMode">Automatic</Attribute>
+		<Attribute Name="RAIDPatrolReadUnconfiguredArea">Enabled</Attribute>
+		<Attribute Name="RAIDloadBalancedMode">Automatic</Attribute>
+		<Attribute Name="RAIDccMode">Normal</Attribute>
+		<Attribute Name="RAIDcopybackMode">On</Attribute>
+		<Attribute Name="RAIDControllerBootMode">Continue Boot On Error</Attribute>
+		<Attribute Name="RAIDEnhancedAutoImportForeignConfig">Disabled</Attribute>
+		<Attribute Name="RAIDrebuildRate">80</Attribute>
+		<Attribute Name="RAIDbgiRate">30</Attribute>
+		<Attribute Name="RAIDccRate">30</Attribute>
+		<Attribute Name="RAIDreconstructRate">30</Attribute>
+		<Component FQDD="Disk.Virtual.0:RAID.Slot.6-1">
+			<Attribute Name="RAIDaction">Create</Attribute>
+			<Attribute Name="LockStatus">Unlocked</Attribute>
+			<Attribute Name="RAIDinitOperation">None</Attribute>
+			<!-- <Attribute Name="T10PIStatus">Disabled</Attribute> -->
+			<Attribute Name="DiskCachePolicy">Default</Attribute>
+			<Attribute Name="RAIDdefaultWritePolicy">WriteBack</Attribute>
+			<Attribute Name="RAIDdefaultReadPolicy">ReadAhead</Attribute>
+			<Attribute Name="Name">root</Attribute>
+			<Attribute Name="Size">479559942144</Attribute>
+			<Attribute Name="StripeSize">128</Attribute>
+			<Attribute Name="SpanDepth">1</Attribute>
+			<Attribute Name="SpanLength">2</Attribute>
+			<Attribute Name="RAIDTypes">RAID 1</Attribute>
+			<Attribute Name="IncludedPhysicalDiskID">Disk.Bay.0:Enclosure.Internal.0-1:RAID.Slot.6-1</Attribute>
+			<Attribute Name="IncludedPhysicalDiskID">Disk.Bay.1:Enclosure.Internal.0-1:RAID.Slot.6-1</Attribute>
+		</Component>
+		<Component FQDD="Disk.Virtual.1:RAID.Slot.6-1">
+			<Attribute Name="RAIDaction">create</Attribute>
+			<Attribute Name="LockStatus">Unlocked</Attribute>
+			<Attribute Name="RAIDinitOperation">None</Attribute>
+			<!-- <Attribute Name="T10PIStatus">Disabled</Attribute> -->
+			<Attribute Name="DiskCachePolicy">Default</Attribute>
+			<Attribute Name="RAIDdefaultWritePolicy">WriteBack</Attribute>
+			<Attribute Name="RAIDdefaultReadPolicy">ReadAhead</Attribute>
+			<Attribute Name="Name">ceph</Attribute>
+			<Attribute Name="Size">479559942144</Attribute>
+			<Attribute Name="StripeSize">128</Attribute>
+			<Attribute Name="SpanDepth">1</Attribute>
+			<Attribute Name="SpanLength">2</Attribute>
+			<Attribute Name="RAIDTypes">RAID 1</Attribute>
+			<Attribute Name="IncludedPhysicalDiskID">Disk.Bay.2:Enclosure.Internal.0-1:RAID.Slot.6-1</Attribute>
+			<Attribute Name="IncludedPhysicalDiskID">Disk.Bay.3:Enclosure.Internal.0-1:RAID.Slot.6-1</Attribute>
+		</Component>
+		<Component FQDD="Enclosure.Internal.0-1:RAID.Slot.6-1">
+			<Component FQDD="Disk.Bay.0:Enclosure.Internal.0-1:RAID.Slot.6-1">
+				<Attribute Name="RAIDHotSpareStatus">No</Attribute>
+				<Attribute Name="RAIDPDState">Ready</Attribute>
+			</Component>
+			<Component FQDD="Disk.Bay.1:Enclosure.Internal.0-1:RAID.Slot.6-1">
+				<Attribute Name="RAIDHotSpareStatus">No</Attribute>
+				<Attribute Name="RAIDPDState">Ready</Attribute>
+			</Component>
+		</Component>
+		<Component FQDD="Enclosure.Internal.0-1:RAID.Slot.6-1">
+			<Component FQDD="Disk.Bay.2:Enclosure.Internal.0-1:RAID.Slot.6-1">
+				<Attribute Name="RAIDHotSpareStatus">No</Attribute>
+				<Attribute Name="RAIDPDState">Ready</Attribute>
+			</Component>
+			<Component FQDD="Disk.Bay.3:Enclosure.Internal.0-1:RAID.Slot.6-1">
+				<Attribute Name="RAIDHotSpareStatus">No</Attribute>
+				<Attribute Name="RAIDPDState">Ready</Attribute>
+			</Component>
+		</Component>
+		<Attribute Name="RAIDremoveControllerKey">False</Attribute>
+	</Component>
+</SystemConfiguration>
