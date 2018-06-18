@@ -12,13 +12,20 @@ Update DELL Server BIOS with appropriate values.
 Entries that are set include:
 
 ```XML
+<Component FQDD="BIOS.Setup.1-1">
 <Attribute Name="BootMode">Uefi</Attribute>
 <Attribute Name="HttpDev1EnDis">Enabled</Attribute>
-<Attribute Name="HttpDev1Interface">NIC.Integrated.1-3-1</Attribute>
+<Attribute Name="HttpDev1Interface">NIC.Integrated.1-7-1</Attribute>
 <Attribute Name="HttpDev1Protocol">IPv4</Attribute>
 <Attribute Name="HttpDev1VlanEnDis">Enabled</Attribute>
 <Attribute Name="HttpDev1VlanId">41</Attribute>
 <Attribute Name="HttpDev1Uri">http://135.16.101.85:9080/EFI/BOOT/ipxe.efi</Attribute>
+</Component>
+
+<Component FQDD="iDRAC.Embedded.1">
+ <Attribute Name="IPMILan.1#Enable">Disabled</Attribute>
+ <Attribute Name="Redfish.1#Enable">Enabled</Attribute
+</Component>
 ```       
 
 ## Update IPXE chain loading image
