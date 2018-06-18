@@ -24,7 +24,7 @@ Entries that are set include:
 
 <Component FQDD="iDRAC.Embedded.1">
  <Attribute Name="IPMILan.1#Enable">Disabled</Attribute>
- <Attribute Name="Redfish.1#Enable">Enabled</Attribute
+ <Attribute Name="Redfish.1#Enable">Enabled</Attribute>
 </Component>
 ```       
 
