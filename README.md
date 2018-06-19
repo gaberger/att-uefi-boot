@@ -26,6 +26,10 @@ Entries that are set include:
  		<Attribute Name="IPMILan.1#Enable">Disabled</Attribute>
 		<Attribute Name="Redfish.1#Enable">Enabled</Attribute>
 	</Component>
+</Component>	
+```
+```XML
+<SystemConfiguration>
 	<Component FQDD="RAID.Slot.6-1">
 		<Attribute Name="RAIDresetConfig">True</Attribute>
 		<Attribute Name="RAIDforeignConfig">Clear</Attribute>
