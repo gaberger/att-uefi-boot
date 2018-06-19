@@ -26,7 +26,7 @@ Entries that are set include:
  		<Attribute Name="IPMILan.1#Enable">Disabled</Attribute>
 		<Attribute Name="Redfish.1#Enable">Enabled</Attribute>
 	</Component>
-</Component>	
+</SystemConfiguration>	
 ```
 ```XML
 <SystemConfiguration>
